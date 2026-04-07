@@ -1,20 +1,24 @@
 import axios from "axios";
+import { baseUrl } from "./baseUrl";
 
-const axiosConfig = async (method, url, reqbody, reqheader = {}) => {
-let configObj = {
-method: method,
-url: url,
-data: reqbody,
-headers: reqheader,
-withCredentials: true
-};
+const axiosInstance = axios.create({
+  baseURL: baseUrl,
+  withCredentials: true, // 🔥 MUST for cookies
+});
 
-try {
-const res = await axios(configObj);
-return res.data;
-} catch (err) {
-return err;
-}
+const axiosConfig = async (method, url, data = {}, headers = {}) => {
+  try {
+    const res = await axiosInstance({
+      method,
+      url,
+      data,
+      headers,
+    });
+
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export default axiosConfig;

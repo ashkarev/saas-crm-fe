@@ -1,25 +1,23 @@
-import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
-export default function ProtectedRoute({ children, role }) {
-  const { user,loading } = useAuth();
+const ProtectedRoute = ({ children, role }) => {
+  const { user, loading } = useAuth();
 
-
-
-
-  if(loading){
-    return <div>Loading</div>
-  }
+  //   wait until fetchUser finishes
+  if (loading) return null;
 
   // not logged in
   if (!user) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/auth" replace />;
   }
 
-  // role mismatch
-  if (role && user.role !== role) {
-    return <Navigate to="/auth" />;
+  // role check (optional)
+  if (role === "admin" && user?.role_name?.toLowerCase() !== "admin" && !user?.is_super_admin) {
+    return <Navigate to="/" replace />;
   }
 
   return children;
-}
+};
+
+export default ProtectedRoute;

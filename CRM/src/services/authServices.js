@@ -1,6 +1,10 @@
 import axiosConfig from "./axiosConfig";
-import { ENDPOINTS } from "./apiEndpoints";
 
 export const loginUser = async (data) => {
-return await axiosConfig("post", ENDPOINTS.LOGIN, data);
+  try {
+    const res = await axiosConfig("POST", "/api/users/userLogin", data);
+    return res;
+  } catch (err) {
+    return err.response?.data;
+  }
 };

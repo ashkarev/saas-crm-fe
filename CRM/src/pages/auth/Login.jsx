@@ -1,36 +1,67 @@
-import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../services/authServices";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const { login, user } = useAuth();
+const Auth = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    login(email);
+  const { fetchUser } = useContext(AuthContext); //  IMPORTANT
+
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const toggle = () => setIsLogin(!isLogin);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await loginUser({
+        email,
+        password,
+      });
+
+      console.log("LOGIN RESPONSE:", res);
+
+      if (res?.success) {
+        toast.success("Login success");
+
+        await fetchUser(); // 🔥 THIS FIXES EVERYTHING
+
+        navigate("/user-dashboard");
+      } else {
+        toast.error(res?.message || "Login failed");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
-  // redirect after login
-  if (user) {
-    if (user.role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/user");
-    }
-  }
-
   return (
-    <div  className="text-white">
-      <h1>Login</h1>
+    <div className="min-h-screen flex items-center justify-center">
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        placeholder="Enter email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button onClick={handleLogin}>Login</button>
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
-}
+};
+
+export default Auth;

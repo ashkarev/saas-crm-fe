@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/authServices";
 import axiosConfig from "../../services/axiosConfig";
 import { toast } from "react-toastify";
+import { useAuth } from "../../contexts/AuthContext";
+
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { fetchUser } = useAuth();
 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -27,9 +30,9 @@ const Auth = () => {
     if (res?.success) {
       toast.success("Login success");
 
-      await axiosConfig("GET", "/api/users/me"); // 🔥 important
+      await fetchUser(); // Ensure user state updates before navigating
 
-      navigate("/user-dashboard");
+      navigate("/user-dashboard", { replace: true });
     } else {
       toast.error(res?.message || "Login failed");
     }
