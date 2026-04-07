@@ -20,24 +20,26 @@ const Auth = () => {
   e.preventDefault();
 
   try {
-    const res = await loginUser({
-      email,
-      password,
-    });
-
+    const res = await loginUser({ email, password });
     console.log("LOGIN RESPONSE:", res);
 
     if (res?.success) {
       toast.success("Login success");
 
-      await fetchUser(); // Ensure user state updates before navigating
+      await fetchUser(); // hydrate AuthContext state
 
-      navigate("/user-dashboard", { replace: true });
+      // use login response role_id directly — most reliable
+      if (res.user?.is_super_admin || res.user?.role_id === 1) {
+        navigate("/members");
+      } else {
+        navigate("/user-dashboard");
+      }
     } else {
       toast.error(res?.message || "Login failed");
     }
   } catch (error) {
     console.log(error);
+    toast.error("Something went wrong");
   }
 };
 

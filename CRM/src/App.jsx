@@ -50,40 +50,38 @@ const App = () => {
 
         {/* ROUTES */}
         <Routes>
-
           {/* PUBLIC */}
           <Route path="/" element={<Home />} />
           <Route path="/docs" element={<Documentation />} />
           <Route path="/overview" element={<Overview />} />
           <Route path="/auth" element={<Auth />} />
 
-          {/* ADMIN */}
+          {/* ADMIN only (role_id = 1 or is_super_admin) */}
           <Route
             path="/members"
             element={
-              <ProtectedRoute role="admin">
+              <ProtectedRoute role={1}>
                 <Members />
               </ProtectedRoute>
             }
           />
 
-          {/* USER */}
+          {/* Any authenticated user */}
           <Route
             path="/user-dashboard"
             element={
-              <ProtectedRoute role="user">
+              <ProtectedRoute>
                 <UserDashboard />
               </ProtectedRoute>
             }
           />
-
         </Routes>
       </motion.div>
 
       {/* TOAST */}
       <ToastContainer
         position="top-center"
-        autoClose={4000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}

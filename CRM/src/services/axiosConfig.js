@@ -12,7 +12,7 @@ const axiosConfig = async (method, url, data = {}, headers = {}) => {
       method,
       url,
       data,
-      headers,
+      headers:{},
     });
 
     return res.data;

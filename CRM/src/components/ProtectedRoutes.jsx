@@ -12,9 +12,9 @@ const ProtectedRoute = ({ children, role }) => {
     return <Navigate to="/auth" replace />;
   }
 
-  // role check (optional)
-  if (role === "admin" && user?.role_name?.toLowerCase() !== "admin" && !user?.is_super_admin) {
-    return <Navigate to="/" replace />;
+  // role check — bypass for super admins
+  if (role && !user.is_super_admin && user.role_id !== role) {
+    return <Navigate to="/auth" replace />;
   }
 
   return children;
