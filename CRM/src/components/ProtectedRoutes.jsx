@@ -1,23 +1,27 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
-const ProtectedRoute = ({ children, role }) => {
+export default function ProtectedRoute({ children, requiredRole }) {
   const { user, loading } = useAuth();
 
-  //   wait until fetchUser finishes
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl font-medium">Loading session...</p>
+      </div>
+    );
+  }
 
-  // not logged in
+  // Not logged in
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  // role check — bypass for super admins
-  if (role && !user.is_super_admin && user.role_id !== role) {
-    return <Navigate to="/auth" replace />;
+  // Role check (always allow Super Admin)
+  if (requiredRole && !user.is_super_admin && user.role !== requiredRole) {
+    return <Navigate to="/" replace />;
   }
 
   return children;
-};
-
-export default ProtectedRoute;
+}

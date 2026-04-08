@@ -11,14 +11,18 @@ export const AuthProvider = ({ children }) => {
 const fetchUser = async () => {
   setLoading(true);
   try {
-    // Backend returns { user: req.user } from /api/auth/me
-    const res = await axiosConfig("GET", "/api/auth/me");
-    const userData = res?.user || null;
-    setUser(userData);
-    return userData;
+    const res = await axiosConfig("GET", "/api/users/me");
+
+    console.log("FETCH USER RES:", res);
+
+    if (res?.success) {
+      setUser(res.data);
+    } else {
+      setUser(null);
+    }
   } catch (err) {
+    console.log("FETCH ERROR:", err);
     setUser(null);
-    return null;
   } finally {
     setLoading(false);
   }

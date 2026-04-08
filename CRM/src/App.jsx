@@ -1,20 +1,31 @@
-import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { motion, useScroll, useSpring } from "framer-motion";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 
-// pages
-import Home from "./pages/Home";
-import Documentation from "./pages/Documentation";
-import Overview from "./pages/Overview";
-import Auth from "./pages/auth/Auth";
-import Members from "./pages/dashboard/Members";
-import UserDashboard from "./pages/user/UserDashboard";
+// Auth & Contexts
+import ProtectedRoute from './components/ProtectedRoutes';
 
-// protected route
-import ProtectedRoute from "./components/ProtectedRoutes";
+// Layouts
+import DashboardLayout from './components/layout/DashboardLayout';
 
-const ScrollToTop = () => {
+// Pages
+import Home from './pages/Home';
+import Documentation from './pages/Documentation';
+import Overview from './pages/Overview';
+import Auth from './pages/auth/Auth';
+import UserDashboard from './pages/user/UserDashboard';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
+import Members from './pages/dashboard/Members';
+import Roles from './pages/dashboard/Roles';
+import Analytics from './pages/dashboard/Analytics';
+import AuditLogs from './pages/dashboard/AuditLogs';
+import Records from './pages/dashboard/Records';
+import NotFound from './pages/NotFound';
+
+// Scroll to top on route change
+function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -22,78 +33,81 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
-};
+}
 
-const App = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
+// Scroll Progress Bar
+function ProgressBar() {
+  const { pathname } = useLocation();
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="min-h-screen text-white bg-[#070A10] relative"
-      >
-        <ScrollToTop />
+    <motion.div
+      key={pathname}
+      initial={{ scaleX: 0 }}
+      animate={{ scaleX: 1 }}
+      exit={{ scaleX: 0 }}
+      className="fixed top-0 left-0 h-1 bg-blue-500 origin-left z-50"
+      transition={{ duration: 0.5 }}
+    />
+  );
+}
 
-        {/* PROGRESS BAR */}
-        <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-[#2176ff] origin-left z-50"
-          style={{ scaleX }}
+function App() {
+  return (
+    <>
+      <ScrollToTop />
+      <ProgressBar />
+      <Routes>
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<Home />} />
+        <Route path="/docs" element={<Documentation />} />
+        <Route path="/overview" element={<Overview />} />
+        <Route path="/auth" element={<Auth />} />
+
+        {/* USER ROUTES */}
+        <Route
+          path="/user-dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
         />
 
-        {/* ROUTES */}
-        <Routes>
-          {/* PUBLIC */}
-          <Route path="/" element={<Home />} />
-          <Route path="/docs" element={<Documentation />} />
-          <Route path="/overview" element={<Overview />} />
-          <Route path="/auth" element={<Auth />} />
+        {/* ADMIN ROUTES (Nested) */}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute requiredRole="Admin">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="members" element={<Members />} />
+          <Route path="roles" element={<Roles />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="audit" element={<AuditLogs />} />
+          <Route path="records" element={<Records />} />
+        </Route>
 
-          {/* ADMIN only (role_id = 1 or is_super_admin) */}
-          <Route
-            path="/members"
-            element={
-              <ProtectedRoute role={1}>
-                <Members />
-              </ProtectedRoute>
-            }
-          />
+        {/* CATCH ALL (404) */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
-          {/* Any authenticated user */}
-          <Route
-            path="/user-dashboard"
-            element={
-              <ProtectedRoute>
-                <UserDashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </motion.div>
-
-      {/* TOAST */}
       <ToastContainer
-        position="top-center"
+        position="bottom-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick={false}
+        closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="dark"
-        transition={Bounce}
       />
     </>
   );
-};
+}
 
 export default App;
