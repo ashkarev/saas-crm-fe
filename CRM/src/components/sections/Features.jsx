@@ -35,7 +35,7 @@ const Features = () => {
   ];
 
   return (
-    <section id="feature" className="bg-white py-24">
+    <section id="feature" className="bg-white py-24 px-6 relative overflow-hidden scroll-mt-24">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* HEADLINE */}

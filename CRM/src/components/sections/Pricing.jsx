@@ -78,7 +78,7 @@ const Pricing = () => {
   };
 
   return (
-    <section id="pricing" className="bg-[#0d1117] py-28 px-6 relative overflow-hidden">
+    <section id="pricing" className="bg-[#0d1117] py-28 px-6 relative overflow-hidden scroll-mt-24">
 
       {/* BG GLOW */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px]  rounded-full pointer-events-none" />

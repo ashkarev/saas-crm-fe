@@ -35,6 +35,8 @@ export default function Members() {
         sort: sortBy,
       });
       console.log('USERS RESPONSE:', response);
+  console.log(document.cookie)
+
       setMembers(response.data || []);
     } catch (err) {
       console.log("API ERROR:", err);

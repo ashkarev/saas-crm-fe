@@ -16,6 +16,7 @@ export default function AdminDashboardLayout() {
     { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/admin-dashboard/analytics' },
     { id: 'audit', label: 'Audit Logs', icon: FileText, path: '/admin-dashboard/audit' },
     { id: 'records', label: 'Records', icon: FileText, path: '/admin-dashboard/records' },
+    { id: 'attendance', label: 'Attendance', icon: Users, path: '/admin-dashboard/attendance' },
   ];
 
   // Determine current active item based on pathname

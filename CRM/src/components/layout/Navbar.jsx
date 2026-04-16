@@ -120,8 +120,8 @@ const Navbar = () => {
         }
       },
       {
-        // Wide sensory band (top 50%) for maximum stability across all scroll speeds.
-        rootMargin: "-80px 0px -50% 0px",
+        // Sensory band centered on the navbar's position (top ~20px to 80px)
+        rootMargin: "-20px 0px -85% 0px",
         threshold: 0,
       }
     );
@@ -141,7 +141,7 @@ const Navbar = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-full z-100 flex justify-center"
+      className="fixed top-0 inset-x-0 z-[100] flex justify-center px-4 md:px-0"
       style={{ paddingTop: "20px", pointerEvents: "none" }}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -159,7 +159,7 @@ const Navbar = () => {
               : "0 8px 32px rgba(0,0,0,0.08)"
             : "none",
         }}
-        className="backdrop-blur-xl border rounded-full px-6 py-3 flex items-center justify-between w-[90%] max-w-5xl transition-all duration-500 ease-out"
+        className="backdrop-blur-xl border rounded-full px-4 md:px-6 py-2.5 md:py-3 flex items-center justify-between w-full max-w-5xl transition-all duration-500 ease-out overflow-hidden"
       >
         {/* ─── Logo ─────────────────────────────────────────── */}
         <motion.div

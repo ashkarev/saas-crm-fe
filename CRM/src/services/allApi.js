@@ -79,12 +79,15 @@ export const restoreRecord = async (id) => {
   return await axiosConfig('PUT', `/api/records/${id}/restore`);
 };
 
-// ==========================================
+// 
 // ATTENDANCE
-// ==========================================
-export const markAttendance = async () => {
-  return await axiosConfig('POST', '/api/attendance');
+// 
+export const attendanceServices = {
+  getAllAttendance: () => axiosConfig('GET', '/api/attendance/all'),
+  markAttendance: (data) => axiosConfig('POST', '/api/attendance/mark', data),
+  getMyAttendance: () => axiosConfig('GET', '/api/attendance/my'),
 };
+
 
 export const getMyAttendance = async () => {
   return await axiosConfig('GET', '/api/attendance/my');

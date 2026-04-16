@@ -9,7 +9,7 @@ const stats = [
 
 const About = () => {
   return (
-    <section id="about" className="bg-white py-28 px-6 relative overflow-hidden">
+    <section id="about" className="bg-white py-28 px-6 relative overflow-hidden scroll-mt-24">
 
       {/* BG DETAIL */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[120px] pointer-events-none opacity-60" />

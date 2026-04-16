@@ -33,7 +33,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="bg-[#0a0d14] text-white">
+    <section id="contact" className="bg-[#0a0d14] text-white scroll-mt-24">
 
       {/* BIG CTA */}
       <div className="relative text-center px-6 py-32 border-b border-white/6 overflow-hidden">

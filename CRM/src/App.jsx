@@ -22,11 +22,13 @@ import Roles from './pages/dashboard/Roles';
 import Analytics from './pages/dashboard/Analytics';
 import AuditLogs from './pages/dashboard/AuditLogs';
 import Records from './pages/dashboard/Records';
+import Attendance from './pages/dashboard/Attendance';
 import NotFound from './pages/NotFound';
 
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -73,7 +75,7 @@ function App() {
           }
         />
 
-        {/* ADMIN ROUTES (Nested) */}
+        {/* ADMIN ROUTES  */}
         <Route
           path="/admin-dashboard"
           element={
@@ -88,9 +90,10 @@ function App() {
           <Route path="analytics" element={<Analytics />} />
           <Route path="audit" element={<AuditLogs />} />
           <Route path="records" element={<Records />} />
+          <Route path="attendance" element={<Attendance />} />
         </Route>
 
-        {/* CATCH ALL (404) */}
+        {/*  (404) */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 
