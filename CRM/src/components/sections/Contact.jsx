@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { AnimatedFAQ } from "@/components/ui/AnimatedFaq";
-import { Link, Links } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Contact = () => {
+  const navigate = useNavigate();
   const faqItems = [
     {
       question: "Is there a free trial?",
@@ -91,10 +92,16 @@ const Contact = () => {
           transition={{ duration: 0.5, delay: 0.25 }}
           className="relative z-10 flex flex-col sm:flex-row justify-center gap-4"
         >
-          <button className="bg-[#2176ff] text-white px-12 py-5 rounded-lg text-[15px] font-bold transition-all duration-300 hover:bg-[#1a60e0] hover:-translate-y-1 shadow-[0_0_40px_rgba(33,118,255,0.3)]  active:scale-95">
+          <button 
+            onClick={() => navigate("/auth")}
+            className="bg-[#2176ff] text-white px-12 py-5 rounded-lg text-[15px] font-bold transition-all duration-300 hover:bg-[#1a60e0] hover:-translate-y-1 shadow-[0_0_40px_rgba(33,118,255,0.3)]  active:scale-95"
+          >
             Get started for free — 14 day trial
           </button>
-          <Link  className="bg-white/05 text-white/70 px-12 py-5 rounded-lg text-[15px] font-semibold border border-white/10 transition-all duration-300 hover:text-white hover:bg-white/10 hover:border-white/20  active:scale-95">
+          <Link 
+            to="/overview"
+            className="bg-white/05 text-white/70 px-12 py-5 rounded-lg text-[15px] font-semibold border border-white/10 transition-all duration-300 hover:text-white hover:bg-white/10 hover:border-white/20  active:scale-95"
+          >
             Schedule a platform tour
           </Link>
         </motion.div>

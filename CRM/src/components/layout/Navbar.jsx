@@ -216,24 +216,34 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* ─── CTA Button ───────────────────────────────────── */}
-        <button 
-           onClick={() => scrollToSection("pricing")}
-          className="px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300"
-          style={{
-            backgroundColor: t.btnBg,
-            color: t.btnText,
-          }}
-          whileHover={{
-            backgroundColor: t.btnHoverBg,
-            color: t.btnHoverText,
-            scale: 1.03,
-            boxShadow: "0 4px 20px rgba(59,130,246,0.4)",
-          }}
-          whileTap={{ scale: 0.97 }}
-        >
-          Get Started
-        </button>
+        {/* ─── CTA & Auth ───────────────────────────────────── */}
+        <div className="flex items-center gap-4">
+          <Link
+            to="/auth"
+            className="hidden md:block text-sm font-medium hover:opacity-80 transition-opacity cursor-pointer px-2"
+            style={{ color: t.text }}
+          >
+            Log In
+          </Link>
+          
+          <motion.button 
+            onClick={() => navigate("/auth")}
+            className="px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300"
+            style={{
+              backgroundColor: t.btnBg,
+              color: t.btnText,
+            }}
+            whileHover={{
+              backgroundColor: t.btnHoverBg,
+              color: t.btnHoverText,
+              scale: 1.03,
+              boxShadow: "0 4px 20px rgba(59,130,246,0.4)",
+            }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Get Started
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );

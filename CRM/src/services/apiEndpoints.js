@@ -9,4 +9,5 @@ export const ENDPOINTS = {
   REGISTER: `${API_BASE}/users/userAdding`,
   ATTENDANCE: `${API_BASE}/attendance`,
   MY_ATTENDANCE: `${API_BASE}/attendance/my`,
+  LEADS: `${API_BASE}/leads`,
 };
