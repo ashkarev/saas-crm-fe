@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, LogOut, Users, Settings, BarChart3, FileText, Home } from 'lucide-react';
+import { Menu, X, LogOut, Users, Settings, BarChart3, FileText, Home, Target, Layout } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
@@ -16,13 +16,15 @@ export default function AdminDashboardLayout() {
     { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/admin-dashboard/analytics' },
     { id: 'audit', label: 'Audit Logs', icon: FileText, path: '/admin-dashboard/audit' },
     { id: 'records', label: 'Records', icon: FileText, path: '/admin-dashboard/records' },
+    { id: 'leads', label: 'Leads', icon: Target, path: '/admin-dashboard/leads' },
+    { id: 'kanban', label: 'Pipeline', icon: Layout, path: '/admin-dashboard/leads/kanban' },
     { id: 'attendance', label: 'Attendance', icon: Users, path: '/admin-dashboard/attendance' },
   ];
 
-  // Determine current active item based on pathname
+  // Determine current active item based on pathname                            
   const currentPath = location.pathname;
   const currentMenuItem = menuItems.find(item => item.path === currentPath) 
-                         || (currentPath.startsWith('/admin-dashboard/') ? menuItems.find(item => currentPath.includes(item.id)) : menuItems[0]);
+          || (currentPath.startsWith('/admin-dashboard/') ? menuItems.find(item => currentPath.includes(item.id)) : menuItems[0]);
 
   const handleLogout = async () => {
     await logout();

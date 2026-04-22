@@ -22,8 +22,11 @@ import Roles from './pages/dashboard/Roles';
 import Analytics from './pages/dashboard/Analytics';
 import AuditLogs from './pages/dashboard/AuditLogs';
 import Records from './pages/dashboard/Records';
-import Attendance from './pages/dashboard/Attendance';
-import NotFound from './pages/NotFound';
+import Attendance from "./pages/dashboard/Attendance";
+import LeadsList from "./pages/dashboard/leads/LeadsList";
+import LeadDetail from "./pages/dashboard/leads/LeadDetail";
+import LeadsKanban from "./pages/dashboard/leads/LeadsKanban";
+import NotFound from "./pages/NotFound";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -91,7 +94,11 @@ function App() {
           <Route path="audit" element={<AuditLogs />} />
           <Route path="records" element={<Records />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="leads" element={<LeadsList />} />
+          <Route path="leads/:id" element={<LeadDetail />} />
+          <Route path="leads/kanban" element={<LeadsKanban />} />
         </Route>
+
 
         {/*  (404) */}
         <Route path="*" element={<NotFound />} />
