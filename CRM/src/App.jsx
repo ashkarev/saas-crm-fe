@@ -26,6 +26,8 @@ import Attendance from "./pages/dashboard/Attendance";
 import LeadsList from "./pages/dashboard/leads/LeadsList";
 import LeadDetail from "./pages/dashboard/leads/LeadDetail";
 import LeadsKanban from "./pages/dashboard/leads/LeadsKanban";
+import OrgSettings from "./pages/dashboard/OrgSettings";
+import Profile from "./pages/dashboard/Profile";
 import NotFound from "./pages/NotFound";
 
 // Scroll to top on route change
@@ -94,6 +96,8 @@ function App() {
           <Route path="audit" element={<AuditLogs />} />
           <Route path="records" element={<Records />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="organization" element={<OrgSettings />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="leads" element={<LeadsList />} />
           <Route path="leads/:id" element={<LeadDetail />} />
           <Route path="leads/kanban" element={<LeadsKanban />} />

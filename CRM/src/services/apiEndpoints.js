@@ -10,4 +10,8 @@ export const ENDPOINTS = {
   ATTENDANCE: `${API_BASE}/attendance`,
   MY_ATTENDANCE: `${API_BASE}/attendance/my`,
   LEADS: `${API_BASE}/leads`,
+  DASHBOARD: `${API_BASE}/organizations/dashboard`,
+  ORG_ME: `${API_BASE}/organizations/me`,
+  UPDATE_ME: `${API_BASE}/users/updateMe`,
+  CHANGE_PASSWORD: `${API_BASE}/users/changePassword`,
 };

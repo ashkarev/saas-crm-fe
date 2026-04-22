@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, LogOut, Users, Settings, BarChart3, FileText, Home, Target, Layout } from 'lucide-react';
+import { Menu, X, LogOut, Users, Settings, BarChart3, FileText, Home, Target, Layout, Building, User } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
@@ -19,6 +19,8 @@ export default function AdminDashboardLayout() {
     { id: 'leads', label: 'Leads', icon: Target, path: '/admin-dashboard/leads' },
     { id: 'kanban', label: 'Pipeline', icon: Layout, path: '/admin-dashboard/leads/kanban' },
     { id: 'attendance', label: 'Attendance', icon: Users, path: '/admin-dashboard/attendance' },
+    { id: 'organization', label: 'Organization', icon: Building, path: '/admin-dashboard/organization' },
+    { id: 'profile', label: 'Profile', icon: User, path: '/admin-dashboard/profile' },
   ];
 
   // Determine current active item based on pathname                            
