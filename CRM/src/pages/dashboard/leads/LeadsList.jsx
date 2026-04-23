@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getLeads, createLead, updateLead, deleteLead } from "../../../services/leadServices";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { exportToCSV } from "../../../utils/exportCSV";
 
 const STAGES = ["new", "contacted", "qualified", "proposal", "won", "lost"];
 
@@ -72,6 +73,29 @@ export default function LeadsList() {
     fetchLeads();
   };
 
+  const handleExport = async () => {
+    try {
+      const res = await getLeads({ limit: 1000, page: 1 });
+      if (res?.success && res.data.length > 0) {
+        const exportData = res.data.map(l => ({
+          Name: l.name || "",
+          Email: l.email || "",
+          Phone: l.phone || "",
+          Company: l.company || "",
+          Source: l.source || "",
+          Stage: l.stage || "",
+          Value: l.value || 0,
+          "Assigned To": l.assigned_to_name || "",
+          Notes: l.notes || "",
+          "Created At": new Date(l.created_at).toLocaleDateString(),
+        }));
+        exportToCSV(exportData, "leads");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="p-8" style={{ fontFamily: "'Sora', sans-serif" }}>
       {/* HEADER */}
@@ -81,6 +105,12 @@ export default function LeadsList() {
           <p className="text-sm text-white/30 font-light mt-1">Manage your sales pipeline</p>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={handleExport}
+            className="px-4 py-2.5 rounded-xl text-sm font-bold text-white/40 border border-white/[0.07] hover:bg-white/[0.04] hover:text-white transition-all flex items-center gap-2"
+          >
+            ↓ Export CSV
+          </button>
           <button
             onClick={() => navigate("/admin-dashboard/leads/kanban")}
             className="px-4 py-2.5 rounded-xl text-sm font-bold text-white/40 border border-white/[0.07] hover:bg-white/[0.04] hover:text-white transition-all"

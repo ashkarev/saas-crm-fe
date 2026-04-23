@@ -88,6 +88,10 @@ export const attendanceServices = {
   getMyAttendance: () => axiosConfig('GET', '/api/attendance/my'),
 };
 
+export const getAttendance = async (params = {}) => {
+  return await axiosConfig('GET', '/api/attendance/all', params);
+};
+
 
 export const getMyAttendance = async () => {
   return await axiosConfig('GET', '/api/attendance/my');

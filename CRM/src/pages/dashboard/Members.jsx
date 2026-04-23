@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, RotateCcw, Search } from 'lucide-react';
 import { getUsers, getRoles, createUser, updateUser, deleteUser } from '../../services/allApi';
 import axiosConfig from '../../services/axiosConfig'; // Used for the restore endpoint directly
 import { toast } from 'react-toastify';
+import { exportToCSV } from "../../utils/exportCSV";
 
 export default function Members() {
   const [members, setMembers] = useState([]);
@@ -122,22 +123,49 @@ export default function Members() {
     }
   };
 
+  const handleExport = async () => {
+    try {
+      // fetch all members with limit 1000
+      const res = await getUsers({ limit: 1000, page: 1 });
+      if (res?.success && res.data.length > 0) {
+        const exportData = res.data.map(m => ({
+          Name: m.name || "",
+          Email: m.email || "",
+          Role: m.role_name || "",
+          Status: m.is_active ? "Active" : "Inactive",
+          "Organization ID": m.organization_id || "",
+        }));
+        exportToCSV(exportData, "members");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* HEADER & CONTROLS */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Members</h1>
-        <button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-            setFormData({ name: '', email: '', password: '', role_id: '' });
-          }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-        >
-          <Plus size={20} />
-          Add Member
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleExport}
+            className="px-4 py-2.5 rounded-xl text-sm font-bold text-white/40 border border-white/[0.07] hover:bg-white/[0.04] hover:text-white transition-all flex items-center gap-2"
+          >
+            ↓ Export CSV
+          </button>
+          <button
+            onClick={() => {
+              setShowForm(true);
+              setEditingId(null);
+              setFormData({ name: '', email: '', password: '', role_id: '' });
+            }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <Plus size={20} />
+            Add Member
+          </button>
+        </div>
       </div>
 
       {/* SEARCH & FILTERS */}

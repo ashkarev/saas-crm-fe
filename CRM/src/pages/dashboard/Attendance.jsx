@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { attendanceServices } from "../../services/allApi";
+import { attendanceServices, getAttendance } from "../../services/allApi";
+import { exportToCSV } from "../../utils/exportCSV";
 
 function Attendance() {
   const [data, setData] = useState([]);
@@ -27,9 +28,35 @@ function Attendance() {
     fetchAttendance();
   }, []);
 
+  const handleExport = async () => {
+    try {
+      const res = await getAttendance({ limit: 1000, page: 1 });
+      if (res?.success && res.data.length > 0) {
+        const exportData = res.data.map(a => ({
+          "User ID": a.user_id || "",
+          Name: a.name || "",
+          Date: a.date ? new Date(a.date).toLocaleDateString() : "",
+          Status: a.status || "Present",
+          "Marked At": a.created_at ? new Date(a.created_at).toLocaleDateString() : "",
+        }));
+        exportToCSV(exportData, "attendance");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Attendance Management</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">Attendance Management</h2>
+        <button
+          onClick={handleExport}
+          className="px-4 py-2.5 rounded-xl text-sm font-bold text-white/40 border border-white/[0.07] hover:bg-white/[0.04] hover:text-white transition-all flex items-center gap-2"
+        >
+          ↓ Export CSV
+        </button>
+      </div>
 
       <div className="bg-[#1e1e1e] rounded-xl overflow-hidden shadow-xl border border-white/5">
         <table className="w-full text-left">
