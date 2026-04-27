@@ -1,10 +1,11 @@
 import axiosConfig from "./axiosConfig";
 import { ENDPOINTS } from "./apiEndpoints";
 
-export const markAttendance = async () => {
-  return await axiosConfig("post", ENDPOINTS.ATTENDANCE);
-};
+export const markAttendance = () =>
+  axiosConfig("POST", `${ENDPOINTS.ATTENDANCE}/mark`);
 
-export const getMyAttendance = async () => {
-  return await axiosConfig("get", ENDPOINTS.MY_ATTENDANCE);
-};
+export const getMyAttendance = () =>
+  axiosConfig("GET", `${ENDPOINTS.ATTENDANCE}/my`);
+
+export const getAllAttendance = (params) =>
+  axiosConfig("GET", ENDPOINTS.ATTENDANCE, null, params);

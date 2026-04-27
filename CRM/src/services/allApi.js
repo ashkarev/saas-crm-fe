@@ -1,98 +1,88 @@
-import axiosConfig from './axiosConfig';
+import axiosConfig from "./axiosConfig";
+import { ENDPOINTS } from "./apiEndpoints";
+import { baseUrl } from "./baseUrl";
 
-// ==========================================
+const API_BASE = `${baseUrl}/api`;
+
+// AUTH
+export const loginUser = (data) =>
+  axiosConfig("POST", ENDPOINTS.LOGIN, data);
+
+export const logoutUser = () =>
+  axiosConfig("POST", ENDPOINTS.LOGOUT);
+
+export const getMe = () =>
+  axiosConfig("GET", ENDPOINTS.ME);
+
 // USERS
-// ==========================================
-export const getUsers = async (params = {}) => {
-  return await axiosConfig('GET', '/api/users/getAllUsers', params);
-};
+export const getUsers = (params) =>
+  axiosConfig("GET", `${API_BASE}/users/getAllUsers`, null, params);
 
-export const createUser = async (data) => {
-  return await axiosConfig('POST', '/api/users/userAdding', data);
-};
+export const createUser = (data) =>
+  axiosConfig("POST", `${API_BASE}/users/userAdding`, data);
 
-export const updateUser = async (id, data) => {
-  return await axiosConfig('PUT', `/api/users/${id}/UpdateUser`, data);
-};
+export const updateUser = (id, data) =>
+  axiosConfig("PUT", `${API_BASE}/users/${id}/UpdateUser`, data);
 
-export const deleteUser = async (id) => {
-  return await axiosConfig('DELETE', `/api/users/${id}/deleteUser`);
-};
+export const deleteUser = (id) =>
+  axiosConfig("DELETE", `${API_BASE}/users/${id}/deleteUser`);
 
-// ==========================================
+export const restoreUser = (id) =>
+  axiosConfig("PUT", `${API_BASE}/users/${id}/restoreUser`);
+
+export const getSingleUser = (id) =>
+  axiosConfig("GET", `${API_BASE}/users/${id}/getSingleUser`);
+
+// DASHBOARD
+export const getDashboard = () =>
+  axiosConfig("GET", ENDPOINTS.DASHBOARD);
+
+// ANALYTICS
+export const getAnalytics = () =>
+  axiosConfig("GET", ENDPOINTS.ANALYTICS);
+
 // ROLES
-// ==========================================
-export const getRoles = async (params = {}) => {
-  return await axiosConfig('GET', '/api/roles/getRole', params);
-};
+export const getRoles = (params) =>
+  axiosConfig("GET", ENDPOINTS.ROLES, null, params);
 
-export const createRole = async (data) => {
-  return await axiosConfig('POST', '/api/roles/createRole', data);
-};
+export const createRole = (data) =>
+  axiosConfig("POST", ENDPOINTS.ROLES, data);
 
-export const updateRole = async (id, data) => {
-  return await axiosConfig('PUT', `/api/roles/${id}/UpdateRole`, data);
-};
+export const updateRole = (id, data) =>
+  axiosConfig("PUT", `${ENDPOINTS.ROLES}/${id}`, data);
 
-export const deleteRole = async (id) => {
-  return await axiosConfig('DELETE', `/api/roles/${id}/deleteRole`);
-};
+export const deleteRole = (id) =>
+  axiosConfig("DELETE", `${ENDPOINTS.ROLES}/${id}`);
 
-// ==========================================
-// DASHBOARD & ANALYTICS
-// ==========================================
-export const getDashboard = async () => {
-  return await axiosConfig('GET', '/api/organizations/dashboard');
-};
-
-export const getAnalytics = async () => {
-  return await axiosConfig('GET', '/api/organizations/analytics');
-};
-
-// ==========================================
 // AUDIT LOGS
-// ==========================================
-export const getAuditLogs = async (params = {}) => {
-  return await axiosConfig('GET', '/api/audit-logs/getAudit', params);
-};
+export const getAuditLogs = (params) =>
+  axiosConfig("GET", ENDPOINTS.AUDIT_LOGS, null, params);
 
-// ==========================================
 // RECORDS
-// ==========================================
-export const getRecords = async (params = {}) => {
-  return await axiosConfig('GET', '/api/records/getRecord', params);
-};
+export const getRecords = (params) =>
+  axiosConfig("GET", ENDPOINTS.RECORDS, null, params);
 
-export const createRecord = async (data) => {
-  return await axiosConfig('POST', '/api/records/create', data);
-};
+export const createRecord = (data) =>
+  axiosConfig("POST", ENDPOINTS.RECORDS, data);
 
-export const updateRecord = async (id, data) => {
-  return await axiosConfig('PUT', `/api/records/${id}/update`, data);
-};
+export const updateRecord = (id, data) =>
+  axiosConfig("PUT", `${ENDPOINTS.RECORDS}/${id}`, data);
 
-export const deleteRecord = async (id) => {
-  return await axiosConfig('DELETE', `/api/records/${id}/delete`);
-};
+export const deleteRecord = (id) =>
+  axiosConfig("DELETE", `${ENDPOINTS.RECORDS}/${id}`);
 
-export const restoreRecord = async (id) => {
-  return await axiosConfig('PUT', `/api/records/${id}/restore`);
-};
+export const restoreRecord = (id) =>
+  axiosConfig("PUT", `${ENDPOINTS.RECORDS}/${id}/restore`);
 
-// 
 // ATTENDANCE
-// 
+export const getAttendance = (params) =>
+  axiosConfig("GET", ENDPOINTS.ATTENDANCE, null, params);
+
+export const markAttendance = (data) =>
+  axiosConfig("POST", `${ENDPOINTS.ATTENDANCE}/mark`, data);
+
 export const attendanceServices = {
-  getAllAttendance: () => axiosConfig('GET', '/api/attendance/all'),
-  markAttendance: (data) => axiosConfig('POST', '/api/attendance/mark', data),
-  getMyAttendance: () => axiosConfig('GET', '/api/attendance/my'),
-};
-
-export const getAttendance = async (params = {}) => {
-  return await axiosConfig('GET', '/api/attendance/all', params);
-};
-
-
-export const getMyAttendance = async () => {
-  return await axiosConfig('GET', '/api/attendance/my');
+  getAllAttendance: getAttendance,
+  markAttendance: markAttendance,
+  getMyAttendance: () => axiosConfig("GET", `${ENDPOINTS.ATTENDANCE}/my`),
 };
